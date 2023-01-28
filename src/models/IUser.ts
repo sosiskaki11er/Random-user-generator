@@ -1,0 +1,22 @@
+export default interface IUser {
+    cell:string;
+    name:{
+        title:string;
+        first:string;
+        last:string;
+    };
+    id:{
+        value:string;
+    };
+    location:{
+        city:string;
+        country:string;
+        street:{
+            number:string;
+            name:string;
+        }
+    };
+    picture:{
+        large:string
+    }
+}
