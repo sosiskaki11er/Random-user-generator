@@ -32,7 +32,7 @@ function App() {
   }
 
   async function fetchMoreData() {
-    let url =`https://randomuser.me/api/?nat=${loc}&results=20${seed ? `&seed=${seed}` : ''}&page=${page+1}`
+    let url =`https://randomuser.me/api/?nat=${loc}&results=10${seed ? `&seed=${seed}` : ''}&page=${page+1}`
     setPage(page+1);
     await fetch(url)
     .then( response => response.json())
@@ -41,7 +41,7 @@ function App() {
       setPage(page+1)
     })
   }
-//(prev) => [...prev, ...data.response.docs]
+  
   return (
     <div className="App">
       <h1>Welcome to Random User app</h1>
@@ -66,29 +66,19 @@ function App() {
         hasMore={true}
         loader={<h4>Loading...</h4>}
       >
-        <div className='usersContainer'>
-                    {users.map((user,index) => UserCard(user,prob,user.id.value,index))}
-        </div>
+        {
+              <div className='usersContainer'>
+                {users.map((user,index) => UserCard(user,prob,index))}
+              </div>
+        } catch (e) {
+          
+        }
+
 
       </InfiniteScroll>
 
     </div>
   );
 }
-/*<div>
-<h1>demo: react-infinite-scroll-component</h1>
-<hr />
-<InfiniteScroll
-  dataLength={this.state.items.length}
-  next={this.fetchMoreData}
-  hasMore={true}
-  loader={<h4>Loading...</h4>}
->
-  {this.state.items.map((i, index) => (
-    <div style={style} key={index}>
-      div - #{index}
-    </div>
-  ))}
-</InfiniteScroll>
-</div>*/
+
 export default App;

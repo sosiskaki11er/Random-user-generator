@@ -1,10 +1,11 @@
 import IUser from "../models/IUser";
 import { mistakeArray } from "../services/mistakeService";
 
-export default function UserCard (user:IUser, mistakeRate:number, key:string,index:number) {
+export default function UserCard (user:IUser, mistakeRate:number,index:number) {
+    const userID = getId(user)
     const userName = getUserName(user)
     const userCell = user.cell
-    const userAddress = `${probabilityGenerator(0.5,user.location.street.number)} ${probabilityGenerator(0.8,user.location.street.name)} ${probabilityGenerator(1,user.location.city)}`
+    const userAddress = getAddress(user)
     let userProps = [userName,userCell,userAddress]
     userProps = mistakeGenerator(userProps, mistakeRate)
 
@@ -30,6 +31,10 @@ export default function UserCard (user:IUser, mistakeRate:number, key:string,ind
         } 
     }
 
+    function getId (user:IUser) {
+        return user.cell.replaceAll('-','').replace('(','').replace(')','').replace(' ','').split("").sort(()=>Math.random()-.5).join('')
+    }
+
     function getUserName (user:IUser) {
         return `${user.name.title} ${user.name.first} ${user.name.last}`
     }
@@ -38,8 +43,8 @@ export default function UserCard (user:IUser, mistakeRate:number, key:string,ind
         return `${probabilityGenerator(0.5,user.location.street.number)} ${probabilityGenerator(0.8,user.location.street.name)} ${probabilityGenerator(1,user.location.city)}` 
     }
 
-    return <div className="card" key={key}>
-            <h4>{index+1} (id:{key})</h4>
+    return <div className="card" key={userID}>
+            <h4>{index+1} (id:{userID})</h4>
             <img src={`${user.picture.large}`} className="card-img-top"/>
             <div className="card-body">
                 <h4 className="card-title fw-bold">{userProps[0]}</h4>
